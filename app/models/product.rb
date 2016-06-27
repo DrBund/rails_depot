@@ -1,4 +1,8 @@
 class Product < ApplicationRecord
+  has_many :line_items
+
+  before_destroy :ensure_not_referenced_by_any_line_item
+
   # Test if something has changed since last rendering
   def self.latest
     Product.order(:updated_at).last
@@ -11,4 +15,16 @@ class Product < ApplicationRecord
     with:     %r{\.(gif|jpg|png)\Z}i,
     message:  'must be a URL for GIF, JPG, or PNG image.'
   }
+
+  private
+
+  # ensure that there are no line items referencing this product
+  def ensure_not_referenced_by_any_line_item
+    if line_items.empty?
+      return true
+    else
+      errors.add(:base, 'Line Items Present')
+      return false
+    end
+  end
 end
