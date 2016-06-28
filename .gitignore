@@ -1,3 +1,5 @@
+*.swp
+
 *.rbc
 capybara-*.html
 .rspec

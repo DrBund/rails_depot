@@ -43,7 +43,7 @@ class CartsController < ApplicationController
   def update
     respond_to do |format|
       if @cart.update(cart_params)
-        format.html { redirect_to @cart, notice: 'Cart was successfully updated.' }
+        format.html { redirect_to @cart }
         format.json { render :show, status: :ok, location: @cart }
       else
         format.html { render :edit }
@@ -55,9 +55,14 @@ class CartsController < ApplicationController
   # DELETE /carts/1
   # DELETE /carts/1.json
   def destroy
-    @cart.destroy
+    puts params.inspect
+    puts "Cart session: " + params[:session][:cart_id]
+    session[:cart_id] = params[:session][:cart_id].to_i
+    @cart.destroy if @cart.id == session[:cart_id]
+    puts "in loop"
+    session[:cart_id] = nil
     respond_to do |format|
-      format.html { redirect_to carts_url, notice: 'Cart was successfully destroyed.' }
+      format.html { redirect_to store_url, notice: 'Your cart is currently empty.' }
       format.json { head :no_content }
     end
   end
