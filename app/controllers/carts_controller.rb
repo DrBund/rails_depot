@@ -55,9 +55,10 @@ class CartsController < ApplicationController
   # DELETE /carts/1
   # DELETE /carts/1.json
   def destroy
+    puts "PARAMS *********************"
     puts params.inspect
-    puts "Cart session: " + params[:session][:cart_id]
-    session[:cart_id] = params[:session][:cart_id].to_i
+    #puts "Cart session: " + params[:session_cart_id]
+    #session[:cart_id] = params[:session][:cart_id].to_i
     @cart.destroy if @cart.id == session[:cart_id]
     puts "in loop"
     session[:cart_id] = nil
