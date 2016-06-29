@@ -26,8 +26,11 @@ class ProductsController < ApplicationController
   def create
     @product = Product.new(product_params)
 
+    puts @product.inspect
+
     respond_to do |format|
       if @product.save
+        puts "in save product ----------------------------------------------"
         format.html { redirect_to @product, notice: 'Product was successfully created.' }
         format.json { render :show, status: :created, location: @product }
       else

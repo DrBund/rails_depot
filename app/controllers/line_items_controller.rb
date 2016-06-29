@@ -26,19 +26,21 @@ class LineItemsController < ApplicationController
   # POST /line_items
   # POST /line_items.json
   def create
-    #puts 'params '
-    #puts params.inspect
     product = Product.find(params[:product_id])
     @line_item = @cart.add_product(product.id)
+    puts @line_item.inspect
     #@line_item = @cart.line_items.build(product: product)
     #puts 'cart id inside create: ' + @line_item.cart_id.to_s
 
     respond_to do |format|
+      puts "inside format block ---------------------------"
       if @line_item.save
+        puts "in save ------------------"
         format.html { redirect_to store_url }
         format.js { @current_item = @line_item }
         format.json { render :show, status: :created, location: @line_item }
       else
+        puts "not in save ------------------"
         format.html { render :new }
         format.json { render json: @line_item.errors, status: :unprocessable_entity }
       end

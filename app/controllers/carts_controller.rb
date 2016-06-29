@@ -58,11 +58,9 @@ class CartsController < ApplicationController
     # session information does not seem to be available in Integration Tests
     # for rails 5, so this if statement is a patch to make the controller test work 
     if params[:in_session]
-      puts "Run session mothafucker!!!!"
       session[:cart_id] = @cart.id
     end
     @cart.destroy if @cart.id == session[:cart_id]
-    puts "in loop"
     session[:cart_id] = nil
     respond_to do |format|
       format.html { redirect_to store_url }
